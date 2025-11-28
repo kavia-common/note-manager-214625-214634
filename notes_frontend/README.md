@@ -1,82 +1,62 @@
-# Lightweight React Template for KAVIA
+# Notes Frontend (Ocean Professional)
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+A modern, lightweight React app to create, view, edit, and delete notes. Implements an Ocean Professional theme with blue primary, amber accents, subtle shadows, rounded corners, gradients, and smooth transitions. Responsive with sidebar categories/tags, search, and basic routing.
 
 ## Features
+- CRUD for notes (create, list, view, edit, delete)
+- Ocean Professional theme and responsive layout
+- Sidebar with categories/tags (mocked initially)
+- Header with global search
+- Notes list with selection and empty state
+- Note editor (Markdown textarea) with live preview toggle
+- Loading states and error toasts
+- Sample data seed for quick preview
+- LocalStorage persistence fallback
+- Data layer ready for REST API via REACT_APP_API_BASE or same-origin
+- Simple client-side routing via query params (?noteId=...) to keep bundle small
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+## Quick Start
+- Install: `npm install`
+- Start: `npm start` (http://localhost:3000)
 
-## Getting Started
+## Environment Variables
+The app reads configuration from the following variables (when defined by the environment):
+- REACT_APP_API_BASE: Base URL for the backend REST API (e.g., https://api.example.com). If not set, the app falls back to same-origin requests for future backend integration. When absent or when API is unreachable, the app uses localStorage.
+- REACT_APP_BACKEND_URL, REACT_APP_FRONTEND_URL, REACT_APP_WS_URL: Not directly required by this app but may be used by deployments. Only REACT_APP_API_BASE influences note API calls here.
 
-In the project directory, you can run:
+How API base is resolved:
+1. If window.__NOTES_API_BASE__ is set (for embedding scenarios), it takes precedence.
+2. Else if process.env.REACT_APP_API_BASE is set, it is used.
+3. Else same-origin (relative paths) are used.
+4. If REST calls fail or are unavailable, the app transparently uses localStorage store.
 
-### `npm start`
+## Switching to a Backend
+- Provide a REST service with endpoints:
+  - GET /notes
+  - GET /notes/:id
+  - POST /notes
+  - PUT /notes/:id
+  - DELETE /notes/:id
+- Set REACT_APP_API_BASE to the server base URL.
+- The app will attempt REST first; if it fails, it will fallback to localStorage.
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Scripts
+- `npm start` - Dev server
+- `npm test` - Tests
+- `npm run build` - Production build
 
-### `npm test`
+## Theming
+Theme colors live in `src/theme.css` and component styles across `src/components/*.css`. Colors from the Ocean Professional style guide:
+- primary: #2563EB
+- secondary/success: #F59E0B
+- error: #EF4444
+- background: #f9fafb
+- surface: #ffffff
+- text: #111827
+With soft gradients and shadows applied to headers, sidebar, and cards.
 
-Launches the test runner in interactive watch mode.
+## Notes
+- No heavy UI frameworks are used. Pure React + CSS.
+- Routing uses query-string to keep template minimal (no react-router dependency required).
+- If you later add React Router, the app structure (pages/components) already isolates state and routing helpers.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-## Customization
-
-### Colors
-
-The main brand colors are defined as CSS variables in `src/App.css`:
-
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
-```
-
-### Components
-
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
-
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
-
-## Learn More
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
